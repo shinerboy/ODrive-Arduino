@@ -37,8 +37,8 @@ void setup() {
   // See the documentation or play around in odrivetool to see the available parameters
   for (int axis = 0; axis < 1; ++axis) {
     //odrive_serial << "w axis" << axis << ".controller.config.vel_limit " << 22000.0f << '\n';
-    odrive_serial << "w axis" << axis << ".controller.config.vel_limit " << 2.0f << '\n'; //4.0f
-    odrive_serial << "w axis" << axis << ".motor.config.current_lim " << 10.0f << '\n'; //44.0f
+    odrive_serial << "w axis" << axis << ".controller.config.vel_limit " << 200.0f << '\n'; //4.0f
+    odrive_serial << "w axis" << axis << ".motor.config.current_lim " << 44.0f << '\n'; //10.0f
     // This ends up writing something like "w axis0.motor.config.current_lim 10.0\n"
   }
 
@@ -100,7 +100,7 @@ void loop() {
     ////////////////////////////END CALIBRATION
   }   
  ///////////////// BEGIN TORQUE CONTROL CODE
-   delay(500);
+   //delay(500);
 
   time_diff = 0;
 
@@ -111,15 +111,25 @@ void loop() {
 
     //SET TORQUE VALUE TO 1.0 for 1000ms
 
-    while (time_diff < 1000){
+    //odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 200.0f << '\n'; //4.0f
+    //odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 44.0f << '\n'; //10.0f
+
+    while (time_diff < 50){
+       odrive_serial << "w axis" << 0 << ".controller.config.control_mode " << 1.0f << '\n';
+       odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 20.0f << '\n'; //4.0f
+    odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 44.0f << '\n'; //10.0f
       time_diff = millis()-time_start;
       Serial.println("HI");
       Serial.println(time_diff);
-      odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 20.0f << '\n'; //4.0f
-    odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 10.0f << '\n'; //44.0f
-      odrive_serial << "c " << 0 << " " << 1.0f << "\n"; //Change 1.0f to other torque value
+      
+      //odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 20.0f << '\n'; //4.0f
+    //odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 10.0f << '\n'; //44.0f
+      odrive_serial << "c " << 0 << " " << 5.0f << "\n"; //Change 1.0f to other torque value
       }
+
       Serial.println("Bye");
+      odrive_serial << "c " << 0 << " " << 0.0f << "\n"; //CHANGE 5.0f to other torque value
+      delay(500);
 
       //delay(500);
 
@@ -130,13 +140,47 @@ void loop() {
     Serial.println(time_diff);
     Serial.println("Before");
 //SET TORUQE VALUE to 5.0 for 100ms
-    while (time_diff < 100){
+    while (time_diff < 500){
       time_diff = millis()-time_start;
       Serial.println("HI");
       Serial.println(time_diff);
-      odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 80.0f << '\n'; //4.0f
-    odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 10.0f << '\n'; //44.0f
-    odrive_serial << "c " << 0 << " " << 5.0f << "\n"; //CHANGE 5.0f to other torque value
+      odrive_serial << "w axis" << 0 << ".controller.config.control_mode " << 3.0f << '\n';
+      odrive.SetPosition(0, 0);
+      //odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 80.0f << '\n'; //4.0f
+    //odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 10.0f << '\n'; //44.0f
+    //odrive_serial << "c " << 0 << " " << 0.0f << "\n"; //CHANGE 5.0f to other torque value
       }
       Serial.println("Bye");
+      
+    //odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 200.0f << '\n'; //4.0f
+    //odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 44.0f << '\n'; //10.0f
+//SET TORUQE VALUE to 5.0 for 100ms
+    while (time_diff < 50){
+       odrive_serial << "w axis" << 0 << ".controller.config.control_mode " << 1.0f << '\n';
+       odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 20.0f << '\n'; //4.0f
+    odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 44.0f << '\n'; //10.0f
+      time_diff = millis()-time_start;
+      Serial.println("HI");
+      Serial.println(time_diff);
+      //odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 80.0f << '\n'; //4.0f
+    //odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 10.0f << '\n'; //44.0f
+    odrive_serial << "c " << 0 << " " << 5.0f << "\n"; //CHANGE 5.0f to other torque value
+      }
+
+      odrive_serial << "c " << 0 << " " << 0.0f << "\n"; //CHANGE 5.0f to other torque value
+      delay(500);
+
+
+//SET TORUQE VALUE to 5.0 for 100ms
+    while (time_diff < 500){
+      time_diff = millis()-time_start;
+      Serial.println("HI");
+      Serial.println(time_diff);
+      odrive_serial << "w axis" << 0 << ".controller.config.control_mode " << 3.0f << '\n';
+      odrive.SetPosition(0, 0);
+      //odrive_serial << "w axis" << 0 << ".controller.config.vel_limit " << 80.0f << '\n'; //4.0f
+    //odrive_serial << "w axis" << 0 << ".motor.config.current_lim " << 10.0f << '\n'; //44.0f
+    //odrive_serial << "c " << 0 << " " << 0.0f << "\n"; //CHANGE 5.0f to other torque value
+      }
+     
 }
